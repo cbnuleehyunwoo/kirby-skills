@@ -19,11 +19,13 @@ A를 고른 뒤 나중에 "영역별로 나눠줘"라는 요청이 오면 그때
 
 ## A. 그대로 넣기
 
+현재 폴더(사이트 루트, `modes/open.md` 0단계) 안 임시 폴더에 만들고 옮긴다.
 ```
-npx create-next-app@latest <이름> --ts --app --eslint --no-tailwind --no-src-dir --use-npm --disable-git --yes
-cd <이름>
+npx create-next-app@latest _new --ts --app --eslint --no-tailwind --no-src-dir --use-npm --disable-git --yes
+# Mac: rsync -a _new/ ./ && rm -rf _new   · Windows: Get-ChildItem _new -Force | Move-Item -Destination .; Remove-Item _new
 rm app/page.tsx app/page.module.css public/*.svg          # Windows: Remove-Item
 ```
+`package.json`의 `"name"`을 사이트 이름으로 바꾼다.
 받은 사이트 파일을 전부 `public/`에 복사한다. 그다음 `next.config.ts`에 원래 주소를 연결한다(생성된 다른 설정은 그대로 둔다).
 ```ts
 async rewrites() {
@@ -45,8 +47,9 @@ async rewrites() {
 
 ### B-1. 새 프로젝트
 
+A와 같은 방식(현재 폴더 안 `_new`에 만들고 옮기기)으로, 옵션만 다르게:
 ```
-npx create-next-app@latest <이름> --ts --app --eslint --no-src-dir --use-npm --disable-git --yes
+npx create-next-app@latest _new --ts --app --eslint --no-src-dir --use-npm --disable-git --yes
 ```
 원본이 Tailwind를 쓰면 `--tailwind`를 붙이고 원본 설정(`tailwind.config.*`, 테마 확장)을 옮긴다.
 

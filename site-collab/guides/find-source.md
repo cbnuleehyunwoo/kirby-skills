@@ -49,7 +49,7 @@ Windows는 작업 폴더를 바로 주지 않는다. 명령줄에 들어 있는 
 페이지가 압축·번들되지 않은 파일을 그대로 불러오면(HTML이 `studio.js`, `app.css`처럼 읽을 수 있는 파일을 직접 참조, 파일 안이 사람이 쓴 코드 그대로), **배포된 파일이 곧 원본**이다. 재구성 없이 받는다.
 
 ```
-node <스킬 폴더>/scripts/fetch-static-site.mjs <페이지 URL> <빈 임시 폴더>/files
+node <스킬 폴더>/scripts/fetch-static-site.mjs <페이지 URL> _fetch/files
 ```
 - 받는 폴더는 비어 있는 새 폴더여야 하고, 받은 파일은 실행하지 않는다.
 - `fetch-report.txt`에서 404인 경로는 대개 사이트가 사용자에게 만들어주는 내보내기 파일 이름이다. 코드에서 그 이름이 어디에 쓰이는지 보고, 필수 파일이 빠졌는지만 확인한다.
@@ -74,6 +74,7 @@ python3 -m http.server 5500 --bind 127.0.0.1      # 받은 폴더에서. Windows
 
 ## 찾은 뒤
 
-- 원본 폴더는 수정하지 않는다. `sites` 폴더(`modes/open.md` 1단계)로 복사해서 쓴다. `node_modules`, `.next`, `dist`는 복사하지 않는다.
+- 원본 폴더는 수정하지 않는다. 현재 폴더(사이트 루트, `modes/open.md` 0단계)로 복사해서 쓴다. `node_modules`, `.next`, `dist`, `.git`은 복사하지 않는다.
+- 받은 파일을 임시로 둘 폴더도 현재 폴더 안에 만든다(예: `_fetch/`). 프로젝트 폴더 밖 쓰기는 막힐 수 있다. 다 옮긴 뒤 지운다.
 - 스택 판별: `package.json`에 `next`가 있으면 Next.js, `vite`면 Vite, `react-scripts`면 CRA, `package.json` 없이 HTML·JS만 있으면 정적 사이트.
 - Next.js가 아니면 `migrate-nextjs.md`.
