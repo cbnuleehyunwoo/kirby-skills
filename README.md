@@ -12,7 +12,9 @@ Codex · Claude에서 쓰는 개인 스킬 모음. 각 폴더가 스킬 하나�
 
 1. **Codex에서 사이트 폴더 만들기**
    - 왼쪽 **프로젝트** 옆 **+** → **로컬 폴더 선택**
-   - Windows는 **문서**, Mac은 **홈** 폴더 안에 `sites` 폴더를 만들고(이미 있으면 생략), 그 안에 **새 폴더**를 사이트 이름(영어 소문자, 예: `my-portfolio`)으로 만들어 선택한다.
+   - **Windows**: 창 맨 위 주소창에 `%USERPROFILE%` 입력 후 Enter → **새 폴더** `sites` 만들고 들어가기 → 다시 **새 폴더**를 사이트 이름(영어 소문자, 예: `my-portfolio`)으로 만들어 선택. 문서·바탕 화면은 OneDrive 동기화 문제로 쓰지 않는다.
+   - **Mac**: Command+Shift+H(홈) → **새로운 폴더** `sites` → 그 안에 사이트 이름 폴더를 만들어 선택.
+   - 자세한 안내: [`site-collab/guides/make-project-folder.md`](site-collab/guides/make-project-folder.md)
    - 왼쪽에 생긴 그 프로젝트에서 **새 채팅**을 연다.
    - Claude 앱을 쓰면 새 대화를 시작할 때 작업 폴더로 같은 폴더를 고른다.
 2. 그 새 채팅에 아래 문장을 **그대로** 붙여넣는다.

@@ -54,6 +54,7 @@ description: 비개발자 디자이너 여러 명이 각자 로컬 AI 세션(Cod
 | `guides/find-source.md` | 기존 사이트 원본 코드 찾기, 배포된 정적 파일 그대로 받기 |
 | `guides/migrate-nextjs.md` | 기존 사이트를 Next.js에 담기 (그대로 넣기 / 다시 짜기) |
 | `guides/install.md` | Git·Node.js·GitHub CLI 설치 (Mac/Windows) |
+| `guides/make-project-folder.md` | 사이트 폴더로 Codex·Claude 프로젝트 만들기 안내 (Mac/Windows) |
 | `guides/vercel-setup.md` | Vercel 가입·로그인·프로젝트 연결·배포용 토큰·시크릿 (개설자) |
 | `scripts/fetch-static-site.mjs` | 배포된 정적 사이트 파일 내려받기 (`find-source.md`에서 사용) |
 | `templates/*` | 열기 모드에서 사이트 레포에 설치하는 파일 |
