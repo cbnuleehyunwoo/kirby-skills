@@ -1,0 +1,21 @@
+# site-collab: Mac과 Windows가 섞여 있어도 줄바꿈 차이로 가짜 변경·충돌이 생기지 않게 LF로 고정한다.
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.mp4 binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

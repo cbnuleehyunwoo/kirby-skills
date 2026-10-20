@@ -1,0 +1,45 @@
+# site-collab: main에 반영될 때만 실제 사이트로 배포한다.
+# 작업 브랜치 푸시에는 실행되지 않는다 (Actions 사용 시간·Vercel 배포 한도 절약).
+name: deploy-production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Vercel Hobby는 비공개 레포에서 소유자가 아닌 작성자의 커밋 배포를 막는다.
+      # 이 러너 안에서만 커밋 작성자를 개설자로 바꾼다. 레포 기록은 바뀌지 않는다.
+      - name: Set commit author to Vercel owner
+        run: |
+          git config user.name "${{ secrets.DEPLOY_NAME }}"
+          git config user.email "${{ secrets.DEPLOY_EMAIL }}"
+          git commit --amend --reset-author --no-edit
+
+      # AI가 반영 완료를 확인하는 데 쓴다: https://<사이트>/version.txt == main 커밋 SHA
+      - name: Write version marker
+        run: |
+          mkdir -p public
+          echo "${{ github.sha }}" > public/version.txt
+
+      - run: npm install --global vercel@latest
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
