@@ -7,6 +7,8 @@ description: 비개발자 디자이너 여러 명이 각자 로컬 AI 세션(Cod
 
 디자이너 N명이 각자 자기 컴퓨터의 AI와 대화하며 사이트 하나를 같이 만든다. Git·배포는 AI가 대신하고, 디자이너에게는 **시안**과 **실제 사이트** 두 단어만 보인다.
 
+필요한 계정은 모두 GitHub 하나뿐이다. 개설자의 Vercel 계정은 열기 모드 안에서 GitHub로 가입한다.
+
 ## 1. 모드 판별
 
 먼저 상황을 확인하고 해당 파일 하나만 읽는다.
@@ -47,4 +49,6 @@ description: 비개발자 디자이너 여러 명이 각자 로컬 AI 세션(Cod
 | `guides/find-source.md` | 기존 사이트 원본 코드 찾기 |
 | `guides/migrate-nextjs.md` | 기존 사이트를 Next.js로 옮기기 |
 | `guides/install.md` | Git·Node.js·GitHub CLI 설치 (Mac/Windows) |
+| `guides/vercel-setup.md` | Vercel 가입·로그인·배포용 토큰·시크릿 (개설자) |
+| `scripts/mint-vercel-token.mjs` | CLI 로그인 정보로 배포용 토큰 생성 (`vercel-setup.md`에서 사용) |
 | `templates/*` | 열기 모드에서 사이트 레포에 설치하는 파일 |

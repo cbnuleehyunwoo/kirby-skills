@@ -2,7 +2,7 @@
 
 개설자가 협업 공간을 만든다. 끝나면 사이트 레포, 실제 사이트 URL, 초대 메시지가 생긴다. 단계마다 무엇을 했는지 한 줄로 알려준다.
 
-준비물: GitHub 계정, Vercel 계정(GitHub으로 가입). 없으면 가입 페이지를 열어주고 기다린다.
+준비물: GitHub 계정. 없으면 가입 페이지를 열어주고 기다린다. Vercel 계정은 6단계에서 GitHub로 가입한다.
 
 ## 1. 출발점 확인
 
@@ -61,22 +61,9 @@ gh api -X PUT repos/<owner>/<repo>/collaborators/<아이디> -f permission=push
 
 ## 6. Vercel 연결
 
-```
-npx vercel login
-npx vercel link --yes
-```
-- Vercel 대시보드에서 이 프로젝트에 Git 저장소를 **연결하지 않는다**. 이유: Hobby 플랜은 비공개 레포에서 소유자가 아닌 사람의 커밋 배포를 막는다. 배포는 GitHub Actions가 개설자 토큰으로 한다.
-- 토큰: `https://vercel.com/account/tokens`를 열고 안내한다. "Create Token을 눌러 이름은 아무거나, 범위는 이 계정으로 만든 뒤 나온 값을 여기에 붙여넣어 주세요. 계정 열쇠라서 다른 사람에게 보여주지 마세요."
+`guides/vercel-setup.md`를 따른다. 가입·로그인·배포용 토큰·프로젝트 연결·시크릿 등록까지 한 번에 끝난다. 개설자는 브라우저 승인 버튼만 누른다.
 
-시크릿 등록 (`.vercel/project.json`에서 값을 읽는다):
-```
-gh secret set VERCEL_TOKEN          # 붙여넣은 토큰 (stdin)
-gh secret set VERCEL_ORG_ID      --body "<orgId>"
-gh secret set VERCEL_PROJECT_ID  --body "<projectId>"
-gh secret set DEPLOY_NAME        --body "<개설자 GitHub login>"
-gh secret set DEPLOY_EMAIL       --body "<개설자 noreply 메일>"
-```
-`DEPLOY_*`는 배포 직전 커밋 작성자를 개설자로 덮어쓰는 데 쓴다. Vercel 계정에 연결된 GitHub 계정과 같아야 한다.
+배포는 Vercel의 Git 연동이 아니라 GitHub Actions가 개설자 토큰으로 한다. 이유: Hobby 플랜은 비공개 레포에서 소유자가 아닌 사람의 커밋 배포를 막는다.
 
 ## 7. 협업 파일 설치
 

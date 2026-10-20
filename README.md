@@ -30,6 +30,7 @@ Copy-Item -Recurse -Force "$HOME\kirby-skills\site-collab" "$HOME\.claude\skills
 
 ## site-collab 사용
 
+- 필요한 계정은 GitHub 하나뿐이다. 개설자의 Vercel 계정은 진행 중에 GitHub로 가입한다(승인 버튼만 누르면 된다).
 - **개설자**(처음 여는 사람)만 위처럼 설치하고 호출한다: Codex `$site-collab`, Claude `/site-collab`.
 - **합류자**는 설치하지 않는다. 개설자가 받은 초대 메시지의 문장을 AI에게 붙여넣으면, 사이트 레포 안에 함께 들어 있는 스킬 사본(`.agents/skills/site-collab/`)으로 진행된다.
 - 평소 작업 규칙은 사이트 레포의 `AGENTS.md`가 매 세션 자동으로 켠다. 스킬을 다시 부를 필요가 없다.

@@ -46,7 +46,7 @@ Vercel은 빌드가 성공해야 실제 사이트를 교체하므로, 실패해�
 | 빌드 에러 | 로컬 빌드는 통과했는데 서버에서 실패 (Node 버전, 대소문자 다른 파일 경로 등) | 고침 브랜치 `<핸들>/fix-deploy`에서 수정 → `confirm.md` 3단계부터 |
 | `api-deployments-free-per-day`, "Resource is limited" | Vercel 무료 플랜 하루 배포 한도(100회) 초과 | "오늘 실제 사이트에 올릴 수 있는 횟수를 다 썼어요. 확정한 내용은 저장돼 있어서 내일 다시 올리면 돼요."라고 알리고, 다음 날 `gh run rerun <run-id>` |
 | "commit author did not have contributing access", "does not support collaboration" | 작성자 덮어쓰기 실패 | 시크릿 `DEPLOY_NAME`/`DEPLOY_EMAIL`이 Vercel 계정에 연결된 GitHub 계정과 같은지 개설자에게 확인 요청 |
-| 401·403, token | 개설자 토큰 만료·삭제 | 개설자가 새 토큰을 만들어 `gh secret set VERCEL_TOKEN`으로 다시 등록해야 한다고 안내. 합류자는 직접 고칠 수 없다 |
+| 401·403, token | 개설자 토큰 만료·삭제 | 개설자의 세션에서 `guides/vercel-setup.md`의 2~3단계(로그인, 배포용 토큰)만 다시 한다. 합류자에게는 "개설자님이 다시 연결해야 해요. 이 메시지를 전달해 주세요"라고 안내한다. 합류자는 직접 고칠 수 없다 |
 | Actions 실행 자체가 없음 / 사용 시간 초과 메시지 | GitHub Actions 월 사용 시간 소진 (비공개 레포 2,000분) | 다음 달 초기화까지 기다리거나 개설자가 레포 설정에서 확인. 확정 내용은 main에 저장돼 있다 |
 
 고친 뒤 다시 반영되면 "올라갔어요 → <실제 사이트>".
