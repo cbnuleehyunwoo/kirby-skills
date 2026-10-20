@@ -49,7 +49,7 @@ npx vercel git disconnect --yes
 
 준비:
 ```
-npx vercel teams ls        # "Team name" 열의 표시 이름 (예: Hyunwoo's projects)
+npx vercel teams ls        # "Team name" 열의 표시 이름 (예: Kim's projects)
 gh secret list             # VERCEL_TOKEN이 이미 있는지
 ```
 
