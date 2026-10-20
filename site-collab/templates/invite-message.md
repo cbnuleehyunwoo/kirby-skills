@@ -4,17 +4,21 @@
 
 **{{SITE_NAME}} 같이 작업해요**
 
-1. GitHub에서 온 초대 메일을 열고 **Accept**를 눌러주세요.
-   (GitHub 계정이 없으면 github.com 에서 먼저 가입하고, 아이디를 {{OWNER_NAME}}에게 알려주세요.)
-2. Codex나 Claude를 열고, 아래 문장을 **그대로** 붙여넣어 주세요.
+1. **GitHub 계정**이 있어야 해요. 없으면 github.com 에서 가입하고 아이디를 {{OWNER_NAME}}에게 알려주세요. 초대 메일이 와도 따로 누를 필요는 없어요. AI가 대신 수락해 줘요.
+2. **Codex에서 사이트 폴더 만들기**
+   - 왼쪽 **프로젝트** 옆 **+** → **로컬 폴더 선택**
+   - Windows는 **문서**, Mac은 **홈** 폴더 안에 `sites` 폴더를 만들고(이미 있으면 생략), 그 안에 **새 폴더** `{{REPO}}`를 만들어 선택하세요.
+   - 왼쪽에 생긴 `{{REPO}}` 프로젝트에서 **새 채팅**을 여세요.
+   - Claude 앱을 쓰면 새 대화를 시작할 때 작업 폴더로 같은 폴더를 고르세요.
+3. 그 새 채팅에 아래 문장을 **그대로** 붙여넣어 주세요.
 
 ```
-https://github.com/{{OWNER}}/{{REPO}} 사이트 협업에 합류할게.
-1) 내 컴퓨터에 Git, Node.js(18.18 이상), GitHub CLI(gh)가 없으면 내 OS에 맞게 설치를 도와줘.
-2) gh auth login --web 으로 GitHub 로그인을 도와주고 gh auth setup-git 까지 해줘.
-3) 초대를 아직 수락하지 않았으면 수락하라고 알려줘.
-4) Mac이면 ~/sites, Windows면 문서\sites 폴더에 이 레포를 받아줘.
-5) 받은 뒤에는 레포 안의 .agents/skills/site-collab/modes/join.md 를 읽고 그대로 진행해줘.
+https://github.com/{{OWNER}}/{{REPO}} 사이트 협업에 합류할게. 지금 이 폴더(비어 있음)에 받아줘.
+1) Git, Node.js(18.18 이상), GitHub CLI(gh)가 없으면 내 OS에 맞게 설치를 도와줘.
+2) gh auth login --web 으로 GitHub 로그인을 도와줘. 컴퓨터 전체 Git 설정은 바꾸지 마.
+3) 이 레포 초대가 대기 중이면 수락해도 되는지 나한테 묻고 수락해줘.
+4) gh repo clone {{OWNER}}/{{REPO}} . 으로 이 폴더에 받아줘.
+5) 받은 뒤에는 .agents/skills/site-collab/modes/join.md 를 읽고 그대로 진행해줘.
 ```
 
 실제 사이트: {{PROD_URL}}

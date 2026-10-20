@@ -29,6 +29,9 @@ description: 비개발자 디자이너 여러 명이 각자 로컬 AI 세션(Cod
 4. **되돌리기 어려운 일은 예/아니오로 먼저 묻는다**: 기존 사이트 재구성, Next.js 이관, 실제 사이트 반영(확정), 실제 사이트 되돌리기, 브랜치 삭제. 이유: 의도를 잘못 읽어도 결과가 되돌릴 수 있는 쪽에 남게 하려는 것.
 5. **OS를 확인하고 명령을 고른다**: Mac(zsh)과 Windows(PowerShell)를 모두 지원한다. OS마다 다른 명령은 각 파일에 둘 다 적혀 있다.
 6. **비밀값을 Git에 넣지 않는다**: 토큰, API 키, `.env*.local`, `.vercel/`.
+7. **화면 안내는 화면에 보이는 이름으로만 한다**: 버튼·메뉴·항목 이름을 내부 ID·slug·CLI 출력값으로 대신하지 않는다. 모르면 생김새로 설명하고, 사용자가 "안 보여요"라고 하면 스크린샷을 받아 그 화면 기준으로 다시 안내한다. 웹 페이지(GitHub·Vercel)를 열기 전에는 "오른쪽 위 계정이 ○○인지" 확인하게 한다.
+8. **"했어"는 확인 가능한 상태로 검증한다**: 사용자가 직접 한 단계(토큰 만들기, 시크릿 넣기, 초대 수락 등)는 CLI·API로 결과가 실제로 생겼는지 확인한 뒤 넘어간다.
+9. **컴퓨터 전체 설정은 바꾸지 않는다**: `git config --global`, `gh auth setup-git` 대신 사이트 레포 안에서만 설정한다. 이유: 디자이너의 다른 프로젝트·계정에 영향이 간다.
 
 ## 3. 이 버전에서 다루지 않는 것
 
@@ -46,9 +49,9 @@ description: 비개발자 디자이너 여러 명이 각자 로컬 AI 세션(Cod
 | `procedures/view-other.md` | 다른 사람 시안 띄우기, 폰으로 보기 |
 | `procedures/conflicts.md` | 합칠 때 충돌 |
 | `procedures/recover.md` | "사이트가 안 열려", 오류, 배포 실패 |
-| `guides/find-source.md` | 기존 사이트 원본 코드 찾기 |
-| `guides/migrate-nextjs.md` | 기존 사이트를 Next.js로 옮기기 |
+| `guides/find-source.md` | 기존 사이트 원본 코드 찾기, 배포된 정적 파일 그대로 받기 |
+| `guides/migrate-nextjs.md` | 기존 사이트를 Next.js에 담기 (그대로 넣기 / 다시 짜기) |
 | `guides/install.md` | Git·Node.js·GitHub CLI 설치 (Mac/Windows) |
-| `guides/vercel-setup.md` | Vercel 가입·로그인·배포용 토큰·시크릿 (개설자) |
-| `scripts/mint-vercel-token.mjs` | CLI 로그인 정보로 배포용 토큰 생성 (`vercel-setup.md`에서 사용) |
+| `guides/vercel-setup.md` | Vercel 가입·로그인·프로젝트 연결·배포용 토큰·시크릿 (개설자) |
+| `scripts/fetch-static-site.mjs` | 배포된 정적 사이트 파일 내려받기 (`find-source.md`에서 사용) |
 | `templates/*` | 열기 모드에서 사이트 레포에 설치하는 파일 |

@@ -1,17 +1,21 @@
 # Vercel 셋업 (개설자, 열기 모드 6단계)
 
-개설자는 GitHub 계정만 있으면 된다. Vercel 계정은 이 절차 안에서 GitHub로 가입한다. 개설자가 직접 하는 일은 브라우저 승인 버튼뿐이다.
+개설자는 GitHub 계정만 있으면 된다. Vercel 계정은 이 절차 안에서 GitHub로 가입한다. 개설자가 직접 하는 일은 브라우저 버튼 몇 번과 토큰 복사·붙여넣기 한 번이다. 터미널은 쓰지 않는다.
 
 끝나면 GitHub 레포 시크릿에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DEPLOY_NAME`, `DEPLOY_EMAIL`이 등록돼 있다.
 
-**토큰 규칙**: 토큰 값은 화면·대화·파일·로그 어디에도 출력하지 않는다. 셸 변수로 받아 곧바로 `gh secret set`에 넘기고 변수를 지운다.
+**토큰 규칙**: 토큰 값은 화면·대화·파일·로그 어디에도 출력하지 않는다. 사용자가 실수로 대화에 붙여넣으면 그 값을 등록하되, 대화 기록에 남았으니 4단계를 다시 해서 새 토큰으로 바꾸자고 권하고 옛 토큰은 `npx vercel tokens revoke <id> --yes`로 폐기한다.
+
+**화면 안내 규칙**: 버튼·메뉴 이름은 화면에 보이는 그대로 쓴다. 내부 ID·slug·CLI 출력값을 화면 이름처럼 쓰지 않는다. 사용자가 "안 보여요"라고 하면 스크린샷을 받아 그 화면 기준으로 다시 안내한다.
 
 ## 0. 이미 로그인돼 있나
 
 ```
 npx vercel whoami
 ```
-사용자 이름이 나오면 3단계로 간다.
+사용자 이름이 나오면 묻는다: "Vercel에 GitHub <gh 로그인 계정> 계정으로 가입하셨죠?" 맞으면 3단계로 간다. 다르면 1단계부터 맞는 계정으로 한다.
+
+이유: 배포 직전 커밋 작성자를 개설자 GitHub 계정으로 덮어써서 무료 플랜의 협업 차단을 피하는데, Vercel에 연결된 GitHub 계정과 다르면 차단된다.
 
 ## 1. 가입 (개설자: 버튼 2번)
 
@@ -20,69 +24,70 @@ npx vercel whoami
 없으면 `https://vercel.com/signup`을 열고 안내한다.
 > 열린 페이지에서 **Continue with GitHub**를 누르고, GitHub 화면이 나오면 **Authorize**를 눌러주세요. 요금제를 물으면 **Hobby**(무료)를 고르고 이름은 아무거나 넣으면 돼요. 끝나면 알려주세요.
 
-확인한다: "가입할 때 GitHub <gh 로그인 계정> 계정으로 하셨죠?" 다른 GitHub 계정이었다면 지금 계정으로 다시 가입하거나 로그인을 바꾸게 한다. 이유: 배포 직전 커밋 작성자를 이 GitHub 계정으로 덮어써서 무료 플랜의 협업 차단을 피하는데, Vercel에 연결된 GitHub 계정과 다르면 차단된다.
+페이지를 열기 전에: "GitHub 화면 오른쪽 위 프로필이 <gh 로그인 계정>인지 확인해 주세요. 다르면 프로필 사진 → Switch account로 바꿔주세요."
 
 ## 2. 로그인 (개설자: 버튼 1번)
 
 ```
 npx vercel login
 ```
-브라우저가 열리면 안내한다: "열린 페이지에서 **Confirm**을 눌러주세요." 완료 후 `npx vercel whoami`로 확인한다.
+브라우저가 열리면: "열린 페이지에서 **Confirm**을 눌러주세요." 완료 후 `npx vercel whoami`로 확인한다.
 
-## 3. 배포용 토큰 만들기 (개설자: 할 일 없음)
-
-CLI 로그인 정보는 10일 동안 안 쓰면 만료되므로 배포에 그대로 쓰지 않는다. 배포 전용 토큰을 새로 만든다. 이름은 `site-collab-<레포이름>`으로 해서 나중에 이 사이트용만 골라 지울 수 있게 한다.
-
-아래 순서로 시도하고, 성공한 방법에서 멈춘다.
-
-### 3-1. CLI 명령
-
-```
-npx vercel tokens --help
-```
-토큰을 새로 만들어 값을 출력하는 하위 명령이 있으면 그걸 쓴다. 출력에서 토큰 값만 변수로 받는다. 없으면 3-2.
-
-### 3-2. 스크립트 (Mac·Windows 공통)
-
-이 스킬 폴더의 `scripts/mint-vercel-token.mjs`를 쓴다.
-
-**Mac**
-```
-T=$(node <스킬 폴더>/scripts/mint-vercel-token.mjs site-collab-<레포이름>) && printf %s "$T" | gh secret set VERCEL_TOKEN; unset T
-```
-
-**Windows (PowerShell)**
-```
-$t = node <스킬 폴더>\scripts\mint-vercel-token.mjs site-collab-<레포이름>
-if ($LASTEXITCODE -eq 0) { $t | gh secret set VERCEL_TOKEN }
-Remove-Variable t
-```
-
-종료 코드 1이면 2단계로 돌아가 다시 로그인한다. 2(API 거절)나 3이면 3-3으로 간다. 스크립트가 실패하면 `gh secret set`을 실행하지 않는다. 이유: 빈 값이 시크릿으로 등록된다.
-
-### 3-3. 직접 만들기 (개설자: 버튼 몇 번 + 붙여넣기)
-
-`https://vercel.com/account/settings/tokens`를 열고 안내한다.
-> **Create Token**을 눌러주세요. 이름은 `site-collab-<레포이름>`, 범위(Scope)는 본인 계정, 만료(Expiration)는 **No Expiration**으로 하고 만든 뒤 나온 값을 여기에 붙여넣어 주세요. 이 값은 계정 열쇠라서 다른 곳에는 붙여넣지 마세요.
-
-받은 값은 바로 `gh secret set VERCEL_TOKEN`에 넘긴다. 이 경우만 토큰이 대화를 거쳤다는 사실을 개설자에게 알린다.
-
-### 확인
-
-```
-gh secret list
-```
-`VERCEL_TOKEN`이 목록에 있으면 된다. 값은 확인하지 않는다.
-
-## 4. 프로젝트 연결
+## 3. 프로젝트 연결
 
 ```
 npx vercel link --yes --project <레포이름>
 npx vercel git disconnect --yes
 ```
-- `link`가 GitHub 레포를 자동으로 연결했을 수 있으므로 `git disconnect`로 끊는다. 연결된 적이 없어서 나는 오류는 무시한다.
+- `link --yes`는 GitHub 레포를 자동으로 연결하려고 한다(계정에 Vercel GitHub 앱이 설치돼 있으면 연결된다). 그래서 바로 `git disconnect`로 끊는다. "No Git repository connected" 오류는 정상이다.
 - 이유: 연결된 채로 두면 Vercel이 푸시마다 직접 배포를 시도해서 무료 플랜 협업 차단에 걸리고 배포 한도도 쓴다. `vercel.json`의 `git.deploymentEnabled: false`는 이중 안전장치다.
-- `.vercel/`은 `.gitignore`에 있어야 한다.
+- `link`는 비밀값이 든 `.env.local`과 `.vercel/`을 만든다. 둘 다 `.gitignore`에 막혀 있는지 `git status --short`로 확인한다.
+
+## 4. 배포용 토큰 (개설자: 버튼 몇 번 + 복사·붙여넣기)
+
+토큰은 사람이 만들어야 한다. CLI 로그인 권한으로는 토큰 생성이 막혀 있다(`vercel tokens create`와 REST API 모두 403 "Cannot create tokens for this app", 2026-10 확인).
+
+준비:
+```
+npx vercel teams ls        # "Team name" 열의 표시 이름 (예: Hyunwoo's projects)
+gh secret list             # VERCEL_TOKEN이 이미 있는지
+```
+
+두 페이지를 연다.
+- Vercel 토큰: `https://vercel.com/account/settings/tokens`
+- GitHub 시크릿: 처음이면 `https://github.com/<owner>/<repo>/settings/secrets/actions/new`, 이미 `VERCEL_TOKEN`이 있으면 `https://github.com/<owner>/<repo>/settings/secrets/actions/VERCEL_TOKEN`
+
+페이지를 열기 전에: "두 페이지 모두 오른쪽 위 계정이 <개설자 계정>인지 확인해 주세요. GitHub에서 '초대' 화면이 뜨면 다른 계정으로 로그인돼 있는 거예요."
+
+안내한다:
+> **① Vercel 탭**
+> 1. **Create Token**을 눌러주세요.
+> 2. 이름에 `site-collab-<레포이름>`을 입력하세요.
+> 3. **Scope**를 누르고 **<팀 표시 이름>**을 고르세요. 오른쪽 `>`를 눌러 그 안에 `<레포이름>`이 보이면 그걸 고르세요(더 안전해요). **Full Account는 고르지 마세요.**
+> 4. **Expiration**은 **No Expiration**(없으면 가장 긴 기간).
+> 5. **Create**를 누르고, 나온 값 옆 **복사** 버튼을 누르세요. 이 값은 한 번만 보여요.
+>
+> **② GitHub 탭**
+> 1. **Name** 칸에 `VERCEL_TOKEN` (이미 있는 경우 이 칸은 없어요)
+> 2. **Secret** 칸에 붙여넣기
+> 3. **Add secret**(이미 있는 경우 **Update secret**)
+>
+> 토큰 값은 이 대화에 붙여넣지 말고, 끝나면 "했어"라고만 알려주세요.
+
+### "했어"를 들으면 확인한다
+
+말만 믿지 않는다. 두 가지를 확인한다.
+```
+npx vercel tokens list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const o=JSON.parse(s);const t=(o.tokens??o).find(t=>t.name===process.argv[1]);console.log(t?"created "+new Date(t.createdAt).toISOString():"missing")})' site-collab-<레포이름>
+gh secret list | grep VERCEL_TOKEN          # 갱신 시각
+```
+| 결과 | 판단 | 안내 |
+|---|---|---|
+| 토큰 `missing` | ①이 안 끝남 | "Vercel에서 토큰 만들기가 끝나지 않은 것 같아요. Create까지 눌렀는지 봐주세요." |
+| 시크릿 갱신 시각이 토큰 생성 시각보다 이름 | ②가 저장 안 됨, 또는 옛 값을 붙여넣음 | "GitHub에 붙여넣은 게 저장되지 않은 것 같아요. 방금 복사한 값으로 다시 해주세요." |
+| 토큰 생성 후 몇 분 안에 시크릿 갱신 | 정상 | 5단계로 |
+
+값이 맞는지는 8단계 첫 배포에서 확인된다. 첫 배포가 "token … is not valid"로 실패하면 대개 클립보드에 남아 있던 옛 토큰을 붙여넣은 경우다. 이 4단계를 다시 한다.
 
 ## 5. 나머지 시크릿
 
@@ -101,8 +106,8 @@ gh secret set DEPLOY_EMAIL --body "<id>+<login>@users.noreply.github.com"
 ## 6. 고지
 
 개설자에게 알린다.
-- 배포용 토큰은 개설자 Vercel 계정 전체에 접근할 수 있다.
+- 배포용 토큰 `site-collab-<레포이름>`은 고른 범위(<팀 표시 이름> 또는 이 프로젝트)에 접근할 수 있다.
 - 레포에 쓰기 권한이 있는 사람은 설정 파일을 고쳐 이 토큰을 쓸 수 있다. 믿을 수 있는 사람만 초대한다.
-- 토큰을 끊고 싶으면 Vercel 설정의 Tokens에서 `site-collab-<레포이름>`을 지우면 된다. 그러면 실제 사이트 반영이 멈춘다.
+- 토큰을 끊고 싶으면 Vercel 설정의 Tokens에서 지우면 된다. 그러면 실제 사이트 반영이 멈춘다.
 
 열기 모드 7단계로 돌아간다.

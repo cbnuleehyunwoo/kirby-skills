@@ -8,8 +8,12 @@
 - 실제 사이트: {{PROD_URL}}
 - 시안 실행: `npm run dev` (기본 localhost:3000)
 - 빌드 확인: `npm run build`
-- 섹션 ↔ 파일:
+- 화면 이름 → 파일 · 요소 (사용자가 화면을 부르는 이름으로 찾는다. 표에 없으면 화면을 보고 짐작하지 말고 "어느 부분 말씀이세요?"라고 묻는다):
 {{SECTIONS}}
+
+## "협업 확인"
+
+사용자가 "협업 확인"이라고 하면 `git fetch` 후 이렇게 답한다: "협업 규칙이 켜져 있어요. {{SITE_NAME}}에서 작업할 준비가 됐어요. (나: <git config user.name>, 실제 사이트: {{PROD_URL}})" 그리고 지금 다른 분이 작업 중인 시안이 있으면 한 줄로 알린다.
 
 ## 말하는 법
 
@@ -26,7 +30,7 @@
 2. **작업 브랜치 확보**: 현재 `main`이면 `git switch -c <핸들>/<영어-slug> origin/main` → `git push -u origin HEAD`. slug는 요청 내용을 영어 2~4단어로 줄인다 (예: `minji-design/button-radius`). 이유: 한글 브랜치 이름은 도구에서 깨지기 쉽다.
 3. **최신화**: `git fetch`. `origin/main`이 내 브랜치에 없는 커밋을 가지면 `git merge origin/main`. 충돌하면 `.agents/skills/site-collab/procedures/conflicts.md`. merge로 `package-lock.json`이 바뀌었으면 `npm install` 후 dev 서버를 재시작한다.
 4. **겹침 확인**: 다른 사람의 미머지 브랜치마다 `git diff --name-only origin/main...origin/<브랜치>`. 내가 고칠 파일과 겹치면 알린다: "참고로 <이름>님도 지금 <화면 이름>을 고치는 중이에요(<그 브랜치 최근 커밋 요약>)." `app/globals.css`, `app/layout.tsx`, `tailwind.config.*` 같은 공통 파일만 겹치면 "공통 스타일이 겹쳐요" 정도로 짧게. 겹쳐도 작업은 진행한다.
-5. **수정**: 요청대로 고친다. 새 화면 영역은 `components/sections/`에 파일 하나로 만든다.
+5. **수정**: 요청대로 고친다. {{STRUCTURE_RULE}}
 6. **저장·공유**: `git add -A && git commit -m "<type>: <한글 요약>" && git push`. type은 `feat` `fix` `style` `refactor` `chore` `docs` 중 하나. 수정 하나당 커밋 하나. 이유: "아까 게 나았어"를 단계별로 되돌릴 수 있고, 다른 사람이 겹침을 볼 수 있다.
 7. **보여주기**: dev 서버가 꺼져 있으면 켜고 "바꿨어요 → localhost:3000"처럼 주소를 준다.
 8. **확정 제안**: 사용자가 만족을 드러내면("좋다", "이걸로 가자", "됐다", "올려줘", "완성") 매번 "이 시안 확정할까요? 확정하면 실제 사이트에 올라가요."라고 묻는다. 거절하면 새 수정이 생길 때까지 다시 묻지 않는다.
